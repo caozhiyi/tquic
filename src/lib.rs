@@ -155,7 +155,7 @@ pub type Result<T> = std::result::Result<T, Error>;
 
 /// Connection Id is an identifier used to identify a QUIC connection
 /// at an endpoint.
-#[repr(C)]
+#[repr(C)] // 告诉 Rust 编译器使用 C 语言的内存布局规则来排列结构体的字段，而不是 Rust 的默认布局
 #[derive(Clone, Copy, Eq, PartialEq, Ord, PartialOrd, Hash, Default)]
 pub struct ConnectionId {
     /// length of cid
@@ -191,7 +191,7 @@ impl std::ops::Deref for ConnectionId {
         &self.data[0..self.len as usize]
     }
 }
-
+// fmt::Debug 实现 {:?} 格式化
 impl fmt::Debug for ConnectionId {
     fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
         for b in self.iter() {
@@ -201,6 +201,7 @@ impl fmt::Debug for ConnectionId {
     }
 }
 
+// fmt::Display 实现 {} 格式化
 impl fmt::Display for ConnectionId {
     fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
         fmt::Debug::fmt(self, f)
